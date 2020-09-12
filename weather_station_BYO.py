@@ -4,7 +4,7 @@ import math
 import bme280_sensor
 import wind_direction_byo
 import statistics
-#import ds18b20_therm
+import ds18b20_therm
 #import database
 
 wind_count = 0    # Counts how many half-rotations
@@ -65,7 +65,7 @@ print('begin')
 
 wind_speed_sensor = Button(5)
 wind_speed_sensor.when_activated = spin
-#temp_probe = ds18b20_therm.DS18B20()
+temp_probe = ds18b20_therm.DS18B20()
 
 rain_sensor = Button(6)
 rain_sensor.when_pressed = bucket_tipped
@@ -77,7 +77,7 @@ while True:
         reset_wind()
         #time.sleep(wind_interval)
         while time.time() - wind_start_time <= wind_interval:
-                store_directions.append(wind_direction_byo.get_value())
+            store_directions.append(wind_direction_byo.get_value())
 
         final_speed = calculate_speed(wind_interval)# Add this speed to the list
         store_speeds.append(final_speed)
@@ -90,8 +90,8 @@ while True:
     store_speeds = []
     #print(store_directions)
     store_directions = []
-    #ground_temp = temp_probe.read_temp()
-    ground_temp = 0
+    ground_temp = temp_probe.read_temp()
+    #ground_temp = 0
     humidity, pressure, ambient_temp = bme280_sensor.read_all()
 
     print('Wind Dir:',round(wind_average,1), 'Wind Speed:',round(wind_speed,1), 'Wind Gust:',round(wind_gust,1), 'Rainfall:',round(rainfall,1),'Humidity:',round(humidity,1),'Pressure:', round(pressure,1), 'Ambient Temp:',round(ambient_temp,1),'Ground Temp:', round(ground_temp,1))
